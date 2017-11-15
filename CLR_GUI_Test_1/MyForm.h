@@ -3,7 +3,7 @@
 #include "OBuffer.h"
 #include <string>
 #include <iostream>
-#include "dirent.h"
+#include <dirent.h>
 #include <msclr\marshal.h>
 #include <msclr\marshal_cppstd.h>
 #include <vector>

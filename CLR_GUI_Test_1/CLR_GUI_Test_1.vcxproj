@@ -151,7 +151,6 @@
     <ClCompile Include="TreeElement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\dirent.h" />
     <ClInclude Include="DirectoryHandler.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
