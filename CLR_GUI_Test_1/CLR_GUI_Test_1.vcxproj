@@ -75,23 +75,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\boost_1_65_1;C:\Programming Utilities\portaudio\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming Utilities\portaudio\build\msvc\Win32\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\libs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\boost_1_65_1;C:\Programming Utilities\portaudio\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming Utilities\portaudio\build\msvc\Win32\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\libs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\boost_1_65_1;C:\Programming Utilities\portaudio\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming Utilities\portaudio\build\msvc\Win32\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\libs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\boost_1_65_1;C:\Programming Utilities\portaudio\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming Utilities\portaudio\build\msvc\Win32\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\libs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
