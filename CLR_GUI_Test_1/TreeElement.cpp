@@ -8,7 +8,14 @@ TreeElement::TreeElement()
 
 TreeElement::TreeElement(std::string Path, std::string Name)
 {
-	path = Path + "\\" + Name;
+	if (Path != "")
+	{
+		path = Path + "\\" + Name;
+	}
+	else
+	{
+		path = Name;
+	}
 	name = Name;
 }
 

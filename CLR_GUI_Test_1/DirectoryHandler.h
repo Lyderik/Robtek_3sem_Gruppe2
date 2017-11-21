@@ -12,11 +12,11 @@ class DirectoryHandler
 {
 public:
 	DirectoryHandler();
-	std::vector<std::string> getDirectories(const char * directoryName);
-	std::vector<std::string> getFiles(const char * directoryName);
-	std::vector<TreeElement> getAllFolders(const char  * Path);
-	std::vector<TreeElement> convertToTreeElements(std::string Path, std::vector<std::string> folderList);
-	std::vector<std::string> getAllFiles(std::vector<TreeElement> folderList);
+	static std::vector<std::string> getDirectories(const char * directoryName);
+	static std::vector<std::string> getFiles(const char * directoryName);
+	static std::vector<TreeElement> getAllFolders(const char  * Path);
+	static std::vector<TreeElement> convertToTreeElements(std::string Path, std::vector<std::string> folderList);
+	static std::vector<std::string> getAllFiles(std::vector<TreeElement> folderList);
 	~DirectoryHandler();
 };
 
