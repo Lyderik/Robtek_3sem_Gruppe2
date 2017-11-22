@@ -4,6 +4,7 @@
 #include <string>
 #include <Windows.h>
 #include "TreeElement.h"
+#include <fstream>
 
 using namespace System::Windows::Forms;
 using namespace System;
@@ -17,6 +18,7 @@ public:
 	static std::vector<TreeElement> getAllFolders(const char  * Path);
 	static std::vector<TreeElement> convertToTreeElements(std::string Path, std::vector<std::string> folderList);
 	static std::vector<std::string> getAllFiles(std::vector<TreeElement> folderList);
+	static std::vector<std::string> loadFromFile(std::string Path);
 	~DirectoryHandler();
 };
 

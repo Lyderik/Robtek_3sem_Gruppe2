@@ -99,34 +99,10 @@ namespace CLRGUITest1 {
 			std::string fileLogFilePath = "C:\\Programming Utilities\\filelist.txt";
 			std::string folderLogFilePath = "C:\\Programming Utilities\\folderlist.txt";
 
-			std::vector<std::string> filePaths;			
-			std::ifstream fileLogIStream(fileLogFilePath);
-
-			while (fileLogIStream.good())
-			{
-				char line[512];
-				fileLogIStream.getline(line, 512);
-				filePaths.push_back(line);
-			}
-			filePaths.pop_back();
-			fileLogIStream.close();
-
-
-			std::vector<std::string> folderPaths;
-			std::ifstream folderLogIStream(folderLogFilePath);
-
-			while (folderLogIStream.good())
-			{
-				char line[512];
-				folderLogIStream.getline(line, 512);
-				folderPaths.push_back(line);
-				
-			}
-			folderPaths.pop_back();
-			folderLogIStream.close();
+			std::vector<std::string> filePaths = DirectoryHandler::loadFromFile(fileLogFilePath);
+			std::vector<std::string> folderPaths = DirectoryHandler::loadFromFile(folderLogFilePath);
 			
-			//treeView1->Nodes->Add(makeNode(TreeElement("", folderPaths[0]), Color::BurlyWood));
-			for (int i = 0; i < folderPaths.size(); i++) //Looping over all folders found from root dir
+			for (int i = 0; i < folderPaths.size(); i++)
 			{
 				std::string name = folderPaths[i];
 				name = name.substr(name.find_last_of("\\") + 1);

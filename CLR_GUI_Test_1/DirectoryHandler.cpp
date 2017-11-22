@@ -94,6 +94,23 @@ std::vector<std::string> DirectoryHandler::getAllFiles(std::vector<TreeElement> 
 	return fileList;
 }
 
+std::vector<std::string> DirectoryHandler::loadFromFile(std::string Path)
+{
+	std::vector<std::string> stringList;
+	std::ifstream stream(Path);
+	while (stream.good())
+	{
+		char line[512];
+		stream.getline(line, 512);
+		stringList.push_back(line);
+
+	}
+	stringList.pop_back();
+	stream.close();
+
+	return stringList;
+}
+
 DirectoryHandler::~DirectoryHandler()
 {
 	
