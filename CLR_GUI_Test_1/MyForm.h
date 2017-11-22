@@ -40,8 +40,7 @@ namespace CLRGUITest1 {
 		};
 		void addOBuffer(OBuffer &obuffer);
 		void addFilesToListView(String ^ folderPath)
-		{
-			//pictureBox1->Image->FromFile("C:\\users\\aszel\\desktop\\diller.png");
+		{			
 			msclr::interop::marshal_context^ context = gcnew msclr::interop::marshal_context(); //Creates marshal_context to convert String^ to char*
 			const char * _folderPath = context->marshal_as<const char*>(folderPath); //Converts given foldername to char* for use
 			int lengthOfRoot = folderPath->LastIndexOf("\\") + 1;
@@ -50,7 +49,7 @@ namespace CLRGUITest1 {
 
 			std::vector<TreeElement> folderList = DirectoryHandler::getAllFolders(_folderPath); //Gets all folders within root dir (Recursively)	
 			std::ofstream folderListLog("C:\\Programming Utilities\\folderlist.txt");
-			folderList.emplace(folderList.begin(), TreeElement("", _folderPath));
+			folderList.emplace(folderList.begin(), TreeElement(_folderPath, _folderPath,false));
 
 			for (int i = 0; i < folderList.size(); i++) //Looping over all folders found from root dir
 			{
@@ -60,13 +59,7 @@ namespace CLRGUITest1 {
 				}
 				else
 				{
-					String^ parentname = msclr::interop::marshal_as<String^>(folderList[i].path); //Converts path of current directory to C# string
-					parentname = parentname->Remove(parentname->LastIndexOf("\\")); //Gets path to parent of current directory
-
-					cli::array<TreeNode^, 1>^ nodes = treeView1->Nodes->Find(parentname, true); //Finds matching directories based on nodes' Name attribute and places them in an array
-					//ERROR HANDLING?
-
-					nodes[0]->Nodes->Add(makeNode(folderList[i], Color::Pink));
+					addNodeToTreeView(treeView1, folderList[i], folderList[i].path, Color::Pink);
 				}
 				folderListLog << folderList[i].path << std::endl;
 			}		
@@ -77,13 +70,12 @@ namespace CLRGUITest1 {
 
 			for(int i = 0; i < fileList.size(); i++)
 			{
-				String^ parentname = msclr::interop::marshal_as<String^>(fileList[i]); //Converts path of current directory to C# string
-				parentname = parentname->Remove(parentname->LastIndexOf("\\")); //Gets path to parent of current directory
+				std::string name = fileList[i];
+				name = name.substr(name.find_last_of("\\") + 1);
 
-				cli::array<TreeNode^, 1>^ nodes = treeView1->Nodes->Find(parentname, true); //Finds matching directories based on nodes' Name attribute and places them in an array
-				nodes[0]->Nodes->Add(makeNode(TreeElement(" ", fileList[i]), Color::LightGreen));
+				addNodeToTreeView(treeView1, TreeElement(name, name, false), fileList[i], Color::LightGreen);
 
-				std::string s = fileList[i].erase(0, lengthOfRoot);
+				std::string s = fileList[i];
 				fileListLog << s << std::endl;
 			}
 			fileListLog.close();
@@ -117,6 +109,7 @@ namespace CLRGUITest1 {
 				filePaths.push_back(line);
 			}
 			filePaths.pop_back();
+			fileLogIStream.close();
 
 
 			std::vector<std::string> folderPaths;
@@ -127,16 +120,45 @@ namespace CLRGUITest1 {
 				char line[512];
 				folderLogIStream.getline(line, 512);
 				folderPaths.push_back(line);
+				
 			}
 			folderPaths.pop_back();
+			folderLogIStream.close();
 			
+			//treeView1->Nodes->Add(makeNode(TreeElement("", folderPaths[0]), Color::BurlyWood));
+			for (int i = 0; i < folderPaths.size(); i++) //Looping over all folders found from root dir
+			{
+				std::string name = folderPaths[i];
+				name = name.substr(name.find_last_of("\\") + 1);
+
+				if (i == 0)
+				{
+					treeView2->Nodes->Add(makeNode(TreeElement(folderPaths[i],folderPaths[i],false), Color::BurlyWood));
+				}
+				else
+				{
+					addNodeToTreeView(treeView2, TreeElement(folderPaths[i], name, false), folderPaths[i], Color::Aquamarine);
+				}				
+			}
+
+			for (int i = 0; i < filePaths.size(); i++)
+			{
+				std::string name = filePaths[i];
+				name = name.substr(name.find_last_of("\\") + 1);
+
+				addNodeToTreeView(treeView2, TreeElement(name, name, false), filePaths[i], Color::Aqua);
+			}
+
 			richTextBox1->Text += "Done";
+		}
+		void addNodeToTreeView(TreeView^ treeView, TreeElement element, std::string path, Color color)
+		{
+			String^ parentname = msclr::interop::marshal_as<String^>(path); //Converts path of current directory to C# string
+			parentname = parentname->Remove(parentname->LastIndexOf("\\")); //Gets path to parent of current directory
 
+			cli::array<TreeNode^, 1>^ nodes = treeView->Nodes->Find(parentname, true); //Finds matching directories based on nodes' Name attribute and places them in an array
 
-
-
-
-
+			nodes[0]->Nodes->Add(makeNode(element, color));
 		}
 
 	protected:
@@ -181,6 +203,7 @@ namespace CLRGUITest1 {
 	private: System::Windows::Forms::TreeView^  treeView1;
 private: System::Windows::Forms::RichTextBox^  richTextBox1;
 private: System::Windows::Forms::Button^  loadFromFileButton;
+private: System::Windows::Forms::TreeView^  treeView2;
 
 
 
@@ -218,11 +241,12 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			this->btn_ast = (gcnew System::Windows::Forms::Button());
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+			this->treeView2 = (gcnew System::Windows::Forms::TreeView());
+			this->loadFromFileButton = (gcnew System::Windows::Forms::Button());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->treeView1 = (gcnew System::Windows::Forms::TreeView());
 			this->btn_pop = (gcnew System::Windows::Forms::Button());
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
-			this->loadFromFileButton = (gcnew System::Windows::Forms::Button());
 			this->tabControl1->SuspendLayout();
 			this->tabPage2->SuspendLayout();
 			this->tabPage1->SuspendLayout();
@@ -230,10 +254,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(4, 5);
-			this->button1->Margin = System::Windows::Forms::Padding(2);
+			this->button1->Location = System::Drawing::Point(5, 6);
+			this->button1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(84, 24);
+			this->button1->Size = System::Drawing::Size(112, 30);
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"Good Button";
 			this->button1->UseVisualStyleBackColor = true;
@@ -241,10 +265,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_1
 			// 
-			this->btn_1->Location = System::Drawing::Point(4, 60);
-			this->btn_1->Margin = System::Windows::Forms::Padding(2);
+			this->btn_1->Location = System::Drawing::Point(5, 74);
+			this->btn_1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_1->Name = L"btn_1";
-			this->btn_1->Size = System::Drawing::Size(56, 61);
+			this->btn_1->Size = System::Drawing::Size(75, 75);
 			this->btn_1->TabIndex = 1;
 			this->btn_1->Text = L"1";
 			this->btn_1->UseVisualStyleBackColor = true;
@@ -252,10 +276,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_2
 			// 
-			this->btn_2->Location = System::Drawing::Point(65, 60);
-			this->btn_2->Margin = System::Windows::Forms::Padding(2);
+			this->btn_2->Location = System::Drawing::Point(87, 74);
+			this->btn_2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_2->Name = L"btn_2";
-			this->btn_2->Size = System::Drawing::Size(56, 61);
+			this->btn_2->Size = System::Drawing::Size(75, 75);
 			this->btn_2->TabIndex = 2;
 			this->btn_2->Text = L"2";
 			this->btn_2->UseVisualStyleBackColor = true;
@@ -263,10 +287,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_3
 			// 
-			this->btn_3->Location = System::Drawing::Point(126, 60);
-			this->btn_3->Margin = System::Windows::Forms::Padding(2);
+			this->btn_3->Location = System::Drawing::Point(168, 74);
+			this->btn_3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_3->Name = L"btn_3";
-			this->btn_3->Size = System::Drawing::Size(56, 61);
+			this->btn_3->Size = System::Drawing::Size(75, 75);
 			this->btn_3->TabIndex = 3;
 			this->btn_3->Text = L"3";
 			this->btn_3->UseVisualStyleBackColor = true;
@@ -274,10 +298,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_a
 			// 
-			this->btn_a->Location = System::Drawing::Point(187, 60);
-			this->btn_a->Margin = System::Windows::Forms::Padding(2);
+			this->btn_a->Location = System::Drawing::Point(249, 74);
+			this->btn_a->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_a->Name = L"btn_a";
-			this->btn_a->Size = System::Drawing::Size(56, 61);
+			this->btn_a->Size = System::Drawing::Size(75, 75);
 			this->btn_a->TabIndex = 4;
 			this->btn_a->Text = L"A";
 			this->btn_a->UseVisualStyleBackColor = true;
@@ -285,10 +309,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_b
 			// 
-			this->btn_b->Location = System::Drawing::Point(187, 126);
-			this->btn_b->Margin = System::Windows::Forms::Padding(2);
+			this->btn_b->Location = System::Drawing::Point(249, 155);
+			this->btn_b->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_b->Name = L"btn_b";
-			this->btn_b->Size = System::Drawing::Size(56, 61);
+			this->btn_b->Size = System::Drawing::Size(75, 75);
 			this->btn_b->TabIndex = 8;
 			this->btn_b->Text = L"B";
 			this->btn_b->UseVisualStyleBackColor = true;
@@ -296,10 +320,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_6
 			// 
-			this->btn_6->Location = System::Drawing::Point(126, 126);
-			this->btn_6->Margin = System::Windows::Forms::Padding(2);
+			this->btn_6->Location = System::Drawing::Point(168, 155);
+			this->btn_6->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_6->Name = L"btn_6";
-			this->btn_6->Size = System::Drawing::Size(56, 61);
+			this->btn_6->Size = System::Drawing::Size(75, 75);
 			this->btn_6->TabIndex = 7;
 			this->btn_6->Text = L"6";
 			this->btn_6->UseVisualStyleBackColor = true;
@@ -307,10 +331,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_5
 			// 
-			this->btn_5->Location = System::Drawing::Point(65, 126);
-			this->btn_5->Margin = System::Windows::Forms::Padding(2);
+			this->btn_5->Location = System::Drawing::Point(87, 155);
+			this->btn_5->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_5->Name = L"btn_5";
-			this->btn_5->Size = System::Drawing::Size(56, 61);
+			this->btn_5->Size = System::Drawing::Size(75, 75);
 			this->btn_5->TabIndex = 6;
 			this->btn_5->Text = L"5";
 			this->btn_5->UseVisualStyleBackColor = true;
@@ -318,10 +342,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_4
 			// 
-			this->btn_4->Location = System::Drawing::Point(4, 126);
-			this->btn_4->Margin = System::Windows::Forms::Padding(2);
+			this->btn_4->Location = System::Drawing::Point(5, 155);
+			this->btn_4->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_4->Name = L"btn_4";
-			this->btn_4->Size = System::Drawing::Size(56, 61);
+			this->btn_4->Size = System::Drawing::Size(75, 75);
 			this->btn_4->TabIndex = 5;
 			this->btn_4->Text = L"4";
 			this->btn_4->UseVisualStyleBackColor = true;
@@ -329,10 +353,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_c
 			// 
-			this->btn_c->Location = System::Drawing::Point(187, 192);
-			this->btn_c->Margin = System::Windows::Forms::Padding(2);
+			this->btn_c->Location = System::Drawing::Point(249, 236);
+			this->btn_c->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_c->Name = L"btn_c";
-			this->btn_c->Size = System::Drawing::Size(56, 61);
+			this->btn_c->Size = System::Drawing::Size(75, 75);
 			this->btn_c->TabIndex = 12;
 			this->btn_c->Text = L"C";
 			this->btn_c->UseVisualStyleBackColor = true;
@@ -340,10 +364,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_9
 			// 
-			this->btn_9->Location = System::Drawing::Point(126, 192);
-			this->btn_9->Margin = System::Windows::Forms::Padding(2);
+			this->btn_9->Location = System::Drawing::Point(168, 236);
+			this->btn_9->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_9->Name = L"btn_9";
-			this->btn_9->Size = System::Drawing::Size(56, 61);
+			this->btn_9->Size = System::Drawing::Size(75, 75);
 			this->btn_9->TabIndex = 11;
 			this->btn_9->Text = L"9";
 			this->btn_9->UseVisualStyleBackColor = true;
@@ -351,10 +375,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_8
 			// 
-			this->btn_8->Location = System::Drawing::Point(65, 192);
-			this->btn_8->Margin = System::Windows::Forms::Padding(2);
+			this->btn_8->Location = System::Drawing::Point(87, 236);
+			this->btn_8->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_8->Name = L"btn_8";
-			this->btn_8->Size = System::Drawing::Size(56, 61);
+			this->btn_8->Size = System::Drawing::Size(75, 75);
 			this->btn_8->TabIndex = 10;
 			this->btn_8->Text = L"8";
 			this->btn_8->UseVisualStyleBackColor = true;
@@ -362,10 +386,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_7
 			// 
-			this->btn_7->Location = System::Drawing::Point(4, 192);
-			this->btn_7->Margin = System::Windows::Forms::Padding(2);
+			this->btn_7->Location = System::Drawing::Point(5, 236);
+			this->btn_7->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_7->Name = L"btn_7";
-			this->btn_7->Size = System::Drawing::Size(56, 61);
+			this->btn_7->Size = System::Drawing::Size(75, 75);
 			this->btn_7->TabIndex = 9;
 			this->btn_7->Text = L"7";
 			this->btn_7->UseVisualStyleBackColor = true;
@@ -373,10 +397,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_d
 			// 
-			this->btn_d->Location = System::Drawing::Point(187, 258);
-			this->btn_d->Margin = System::Windows::Forms::Padding(2);
+			this->btn_d->Location = System::Drawing::Point(249, 318);
+			this->btn_d->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_d->Name = L"btn_d";
-			this->btn_d->Size = System::Drawing::Size(56, 61);
+			this->btn_d->Size = System::Drawing::Size(75, 75);
 			this->btn_d->TabIndex = 16;
 			this->btn_d->Text = L"D";
 			this->btn_d->UseVisualStyleBackColor = true;
@@ -384,10 +408,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_hash
 			// 
-			this->btn_hash->Location = System::Drawing::Point(126, 258);
-			this->btn_hash->Margin = System::Windows::Forms::Padding(2);
+			this->btn_hash->Location = System::Drawing::Point(168, 318);
+			this->btn_hash->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_hash->Name = L"btn_hash";
-			this->btn_hash->Size = System::Drawing::Size(56, 61);
+			this->btn_hash->Size = System::Drawing::Size(75, 75);
 			this->btn_hash->TabIndex = 15;
 			this->btn_hash->Text = L"#";
 			this->btn_hash->UseVisualStyleBackColor = true;
@@ -395,10 +419,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_0
 			// 
-			this->btn_0->Location = System::Drawing::Point(65, 258);
-			this->btn_0->Margin = System::Windows::Forms::Padding(2);
+			this->btn_0->Location = System::Drawing::Point(87, 318);
+			this->btn_0->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_0->Name = L"btn_0";
-			this->btn_0->Size = System::Drawing::Size(56, 61);
+			this->btn_0->Size = System::Drawing::Size(75, 75);
 			this->btn_0->TabIndex = 14;
 			this->btn_0->Text = L"0";
 			this->btn_0->UseVisualStyleBackColor = true;
@@ -406,10 +430,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			// btn_ast
 			// 
-			this->btn_ast->Location = System::Drawing::Point(4, 258);
-			this->btn_ast->Margin = System::Windows::Forms::Padding(2);
+			this->btn_ast->Location = System::Drawing::Point(5, 318);
+			this->btn_ast->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_ast->Name = L"btn_ast";
-			this->btn_ast->Size = System::Drawing::Size(56, 61);
+			this->btn_ast->Size = System::Drawing::Size(75, 75);
 			this->btn_ast->TabIndex = 13;
 			this->btn_ast->Text = L"*";
 			this->btn_ast->UseVisualStyleBackColor = true;
@@ -419,51 +443,73 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			// 
 			this->tabControl1->Controls->Add(this->tabPage2);
 			this->tabControl1->Controls->Add(this->tabPage1);
-			this->tabControl1->Location = System::Drawing::Point(9, 10);
-			this->tabControl1->Margin = System::Windows::Forms::Padding(2);
+			this->tabControl1->Location = System::Drawing::Point(12, 12);
+			this->tabControl1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
-			this->tabControl1->Size = System::Drawing::Size(425, 581);
+			this->tabControl1->Size = System::Drawing::Size(934, 715);
 			this->tabControl1->TabIndex = 17;
 			// 
 			// tabPage2
 			// 
+			this->tabPage2->Controls->Add(this->treeView2);
 			this->tabPage2->Controls->Add(this->loadFromFileButton);
 			this->tabPage2->Controls->Add(this->richTextBox1);
 			this->tabPage2->Controls->Add(this->treeView1);
 			this->tabPage2->Controls->Add(this->btn_pop);
-			this->tabPage2->Location = System::Drawing::Point(4, 22);
-			this->tabPage2->Margin = System::Windows::Forms::Padding(2);
+			this->tabPage2->Location = System::Drawing::Point(4, 25);
+			this->tabPage2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tabPage2->Name = L"tabPage2";
-			this->tabPage2->Padding = System::Windows::Forms::Padding(2);
-			this->tabPage2->Size = System::Drawing::Size(417, 555);
+			this->tabPage2->Padding = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->tabPage2->Size = System::Drawing::Size(926, 686);
 			this->tabPage2->TabIndex = 1;
 			this->tabPage2->Text = L"Test";
 			this->tabPage2->UseVisualStyleBackColor = true;
 			// 
+			// treeView2
+			// 
+			this->treeView2->Location = System::Drawing::Point(555, 4);
+			this->treeView2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->treeView2->Name = L"treeView2";
+			this->treeView2->Size = System::Drawing::Size(365, 678);
+			this->treeView2->TabIndex = 5;
+			this->treeView2->NodeMouseDoubleClick += gcnew System::Windows::Forms::TreeNodeMouseClickEventHandler(this, &MyForm::treeView2_NodeMouseDoubleClick);
+			// 
+			// loadFromFileButton
+			// 
+			this->loadFromFileButton->Location = System::Drawing::Point(379, 166);
+			this->loadFromFileButton->Margin = System::Windows::Forms::Padding(4);
+			this->loadFromFileButton->Name = L"loadFromFileButton";
+			this->loadFromFileButton->Size = System::Drawing::Size(100, 28);
+			this->loadFromFileButton->TabIndex = 4;
+			this->loadFromFileButton->Text = L"From File";
+			this->loadFromFileButton->UseVisualStyleBackColor = true;
+			this->loadFromFileButton->Click += gcnew System::EventHandler(this, &MyForm::loadFromFileButton_Click);
+			// 
 			// richTextBox1
 			// 
-			this->richTextBox1->Location = System::Drawing::Point(284, 33);
+			this->richTextBox1->Location = System::Drawing::Point(379, 41);
+			this->richTextBox1->Margin = System::Windows::Forms::Padding(4);
 			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->Size = System::Drawing::Size(128, 96);
+			this->richTextBox1->Size = System::Drawing::Size(169, 117);
 			this->richTextBox1->TabIndex = 3;
 			this->richTextBox1->Text = L"";
 			// 
 			// treeView1
 			// 
-			this->treeView1->Location = System::Drawing::Point(4, 3);
-			this->treeView1->Margin = System::Windows::Forms::Padding(2);
+			this->treeView1->Location = System::Drawing::Point(5, 4);
+			this->treeView1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->treeView1->Name = L"treeView1";
-			this->treeView1->Size = System::Drawing::Size(275, 552);
+			this->treeView1->Size = System::Drawing::Size(365, 678);
 			this->treeView1->TabIndex = 2;
 			this->treeView1->NodeMouseDoubleClick += gcnew System::Windows::Forms::TreeNodeMouseClickEventHandler(this, &MyForm::treeView1_NodeMouseDoubleClick);
 			// 
 			// btn_pop
 			// 
-			this->btn_pop->Location = System::Drawing::Point(283, 3);
-			this->btn_pop->Margin = System::Windows::Forms::Padding(2);
+			this->btn_pop->Location = System::Drawing::Point(377, 4);
+			this->btn_pop->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_pop->Name = L"btn_pop";
-			this->btn_pop->Size = System::Drawing::Size(62, 25);
+			this->btn_pop->Size = System::Drawing::Size(83, 31);
 			this->btn_pop->TabIndex = 1;
 			this->btn_pop->Text = L"Populate";
 			this->btn_pop->UseVisualStyleBackColor = true;
@@ -488,31 +534,21 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 			this->tabPage1->Controls->Add(this->btn_6);
 			this->tabPage1->Controls->Add(this->btn_7);
 			this->tabPage1->Controls->Add(this->btn_b);
-			this->tabPage1->Location = System::Drawing::Point(4, 22);
-			this->tabPage1->Margin = System::Windows::Forms::Padding(2);
+			this->tabPage1->Location = System::Drawing::Point(4, 25);
+			this->tabPage1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tabPage1->Name = L"tabPage1";
-			this->tabPage1->Padding = System::Windows::Forms::Padding(2);
-			this->tabPage1->Size = System::Drawing::Size(417, 555);
+			this->tabPage1->Padding = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->tabPage1->Size = System::Drawing::Size(926, 686);
 			this->tabPage1->TabIndex = 0;
 			this->tabPage1->Text = L"DTMFTest";
 			// 
-			// loadFromFileButton
-			// 
-			this->loadFromFileButton->Location = System::Drawing::Point(284, 135);
-			this->loadFromFileButton->Name = L"loadFromFileButton";
-			this->loadFromFileButton->Size = System::Drawing::Size(75, 23);
-			this->loadFromFileButton->TabIndex = 4;
-			this->loadFromFileButton->Text = L"From File";
-			this->loadFromFileButton->UseVisualStyleBackColor = true;
-			this->loadFromFileButton->Click += gcnew System::EventHandler(this, &MyForm::loadFromFileButton_Click);
-			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(445, 600);
+			this->ClientSize = System::Drawing::Size(956, 738);
 			this->Controls->Add(this->tabControl1);
-			this->Margin = System::Windows::Forms::Padding(2);
+			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->tabControl1->ResumeLayout(false);
@@ -596,6 +632,10 @@ private: System::Windows::Forms::Button^  loadFromFileButton;
 private: System::Void loadFromFileButton_Click(System::Object^  sender, System::EventArgs^  e) 
 {
 	populateTreeViewFromFile();
+}
+private: System::Void treeView2_NodeMouseDoubleClick(System::Object^  sender, System::Windows::Forms::TreeNodeMouseClickEventArgs^  e) 
+{
+	System::Diagnostics::Process::Start(e->Node->FullPath);
 }
 };
 }

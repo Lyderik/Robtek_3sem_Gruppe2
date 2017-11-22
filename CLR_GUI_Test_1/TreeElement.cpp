@@ -6,15 +6,15 @@ TreeElement::TreeElement()
 {
 }
 
-TreeElement::TreeElement(std::string Path, std::string Name)
+TreeElement::TreeElement(std::string Path, std::string Name, bool combine)
 {
-	if (Path != "")
+	if (combine)
 	{
 		path = Path + "\\" + Name;
 	}
 	else
 	{
-		path = Name;
+		path = Path;
 	}
 	name = Name;
 }

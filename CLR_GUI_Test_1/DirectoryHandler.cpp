@@ -74,7 +74,7 @@ std::vector<TreeElement> DirectoryHandler::convertToTreeElements(std::string Pat
 	std::vector<TreeElement> convertedList; //Creates an output list of TreeElements
 	for (int i = 0; i < folderList.size(); i++) //Loops through given list of strings
 	{
-		convertedList.push_back(TreeElement(Path, folderList[i])); //Adds TreeElement from given path and string
+		convertedList.push_back(TreeElement(Path, folderList[i],true)); //Adds TreeElement from given path and string
 	}
 	return convertedList;
 }
