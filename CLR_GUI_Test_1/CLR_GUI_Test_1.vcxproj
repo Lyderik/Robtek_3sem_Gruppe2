@@ -148,16 +148,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectoryHandler.cpp" />
+    <ClCompile Include="Huffman.cpp" />
+    <ClCompile Include="HuffmanTest.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="OBuffer.cpp" />
+    <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="TreeElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectoryHandler.h" />
+    <ClInclude Include="Huffman.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="OBuffer.h" />
+    <ClInclude Include="StopWatch.h" />
     <ClInclude Include="TreeElement.h" />
   </ItemGroup>
   <ItemGroup>
