@@ -2,6 +2,10 @@
 
 Huffman::Huffman()
 {
+	for (int i = 0; i < 256; i++)
+	{
+		analysedData[i] = 0;
+	}
 }
 
 Huffman::~Huffman()
@@ -50,6 +54,7 @@ void Huffman::AnalyseData(std::string filePath)
 		analysedData[unsigned char(stream.get())]++;
 		fileLength++;
 	}
+	stream.close();
 }
 
 void Huffman::BuildTree()

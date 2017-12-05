@@ -151,6 +151,7 @@
     <ClCompile Include="Huffman.cpp" />
     <ClCompile Include="HuffmanTest.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="NewDirPopup.cpp" />
     <ClCompile Include="OBuffer.cpp" />
     <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="TreeElement.cpp" />
@@ -161,6 +162,9 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="NewDirPopup.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="OBuffer.h" />
     <ClInclude Include="StopWatch.h" />
     <ClInclude Include="TreeElement.h" />
@@ -168,6 +172,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDirPopup.resx">
+      <DependentUpon>NewDirPopup.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

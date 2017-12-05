@@ -11,8 +11,9 @@
 #include "TreeElement.h"
 #include <fstream>
 #include <algorithm>
-
-#define BOOST_FILESYSTEM_NO_DEPRECATED
+#include "Huffman.h"
+#include "NewDirPopup.h"
+#include <direct.h>
 
 namespace CLRGUITest1 {
 
@@ -41,7 +42,7 @@ namespace CLRGUITest1 {
 		void addOBuffer(OBuffer &obuffer);
 		void addFilesToListView(String ^ folderPath)
 		{			
-			msclr::interop::marshal_context^ context = gcnew msclr::interop::marshal_context(); //Creates marshal_context to convert String^ to char*
+			
 			const char * _folderPath = context->marshal_as<const char*>(folderPath); //Converts given foldername to char* for use
 			int lengthOfRoot = folderPath->LastIndexOf("\\") + 1;
 
@@ -81,6 +82,8 @@ namespace CLRGUITest1 {
 			fileListLog.close();
 
 			richTextBox1->Text += "Total of " + fileList.size() + " files.\n";
+			//treeView1->ExpandAll();
+			treeView1->Nodes[0]->Nodes[0]->Nodes[0]->ExpandAll();
 
 		}
 		TreeNode^ makeNode(TreeElement element, Color color)
@@ -129,13 +132,24 @@ namespace CLRGUITest1 {
 		}
 		void addNodeToTreeView(TreeView^ treeView, TreeElement element, std::string path, Color color)
 		{
-			String^ parentname = msclr::interop::marshal_as<String^>(path); //Converts path of current directory to C# string
-			parentname = parentname->Remove(parentname->LastIndexOf("\\")); //Gets path to parent of current directory
-
-			cli::array<TreeNode^, 1>^ nodes = treeView->Nodes->Find(parentname, true); //Finds matching directories based on nodes' Name attribute and places them in an array
+			cli::array<TreeNode^, 1>^ nodes = findNode(msclr::interop::marshal_as<String^>(path), treeView);
 
 			nodes[0]->Nodes->Add(makeNode(element, color));
 		}
+		cli::array<TreeNode^, 1>^ findNode(String^ path, TreeView^ treeView)
+		{
+			String^ parentname = path;
+			parentname = parentname->Remove(parentname->LastIndexOf("\\")); //Gets path to parent of current directory
+
+			return treeView->Nodes->Find(parentname, true); //Finds matching directories based on nodes' Name attribute and places them in an array
+		}
+
+	private:
+		Huffman* h;
+		String^ treeView1FolderPath;
+private: System::Windows::Forms::Button^  deleteNodeButton;
+private: System::Windows::Forms::Button^  newFolderButton;
+		 msclr::interop::marshal_context^ context = gcnew msclr::interop::marshal_context(); //Creates marshal_context to convert String^ to char*
 
 	protected:
 		/// <summary>
@@ -180,11 +194,14 @@ namespace CLRGUITest1 {
 private: System::Windows::Forms::RichTextBox^  richTextBox1;
 private: System::Windows::Forms::Button^  loadFromFileButton;
 private: System::Windows::Forms::TreeView^  treeView2;
+private: System::Windows::Forms::Button^  decompressFileButton;
+private: System::Windows::Forms::Button^  compressFileButton;
 
 
 
 	private:
 		//OBuffer* wBuffer;
+		
 
 		/// <summary>
 		/// Required designer variable.
@@ -217,12 +234,16 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			this->btn_ast = (gcnew System::Windows::Forms::Button());
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+			this->deleteNodeButton = (gcnew System::Windows::Forms::Button());
+			this->decompressFileButton = (gcnew System::Windows::Forms::Button());
+			this->compressFileButton = (gcnew System::Windows::Forms::Button());
 			this->treeView2 = (gcnew System::Windows::Forms::TreeView());
 			this->loadFromFileButton = (gcnew System::Windows::Forms::Button());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->treeView1 = (gcnew System::Windows::Forms::TreeView());
 			this->btn_pop = (gcnew System::Windows::Forms::Button());
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->newFolderButton = (gcnew System::Windows::Forms::Button());
 			this->tabControl1->SuspendLayout();
 			this->tabPage2->SuspendLayout();
 			this->tabPage1->SuspendLayout();
@@ -423,11 +444,15 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			this->tabControl1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
-			this->tabControl1->Size = System::Drawing::Size(934, 715);
+			this->tabControl1->Size = System::Drawing::Size(954, 715);
 			this->tabControl1->TabIndex = 17;
 			// 
 			// tabPage2
 			// 
+			this->tabPage2->Controls->Add(this->newFolderButton);
+			this->tabPage2->Controls->Add(this->deleteNodeButton);
+			this->tabPage2->Controls->Add(this->decompressFileButton);
+			this->tabPage2->Controls->Add(this->compressFileButton);
 			this->tabPage2->Controls->Add(this->treeView2);
 			this->tabPage2->Controls->Add(this->loadFromFileButton);
 			this->tabPage2->Controls->Add(this->richTextBox1);
@@ -437,14 +462,44 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			this->tabPage2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3, 2, 3, 2);
-			this->tabPage2->Size = System::Drawing::Size(926, 686);
+			this->tabPage2->Size = System::Drawing::Size(946, 686);
 			this->tabPage2->TabIndex = 1;
 			this->tabPage2->Text = L"Test";
 			this->tabPage2->UseVisualStyleBackColor = true;
 			// 
+			// deleteNodeButton
+			// 
+			this->deleteNodeButton->Location = System::Drawing::Point(376, 199);
+			this->deleteNodeButton->Name = L"deleteNodeButton";
+			this->deleteNodeButton->Size = System::Drawing::Size(75, 23);
+			this->deleteNodeButton->TabIndex = 8;
+			this->deleteNodeButton->Text = L"Delete";
+			this->deleteNodeButton->UseVisualStyleBackColor = true;
+			this->deleteNodeButton->Click += gcnew System::EventHandler(this, &MyForm::deleteNodeButton_Click);
+			// 
+			// decompressFileButton
+			// 
+			this->decompressFileButton->Location = System::Drawing::Point(479, 165);
+			this->decompressFileButton->Name = L"decompressFileButton";
+			this->decompressFileButton->Size = System::Drawing::Size(95, 28);
+			this->decompressFileButton->TabIndex = 7;
+			this->decompressFileButton->Text = L"Decompress";
+			this->decompressFileButton->UseVisualStyleBackColor = true;
+			this->decompressFileButton->Click += gcnew System::EventHandler(this, &MyForm::decompressFileButton_Click);
+			// 
+			// compressFileButton
+			// 
+			this->compressFileButton->Location = System::Drawing::Point(376, 165);
+			this->compressFileButton->Name = L"compressFileButton";
+			this->compressFileButton->Size = System::Drawing::Size(97, 28);
+			this->compressFileButton->TabIndex = 6;
+			this->compressFileButton->Text = L"Compress";
+			this->compressFileButton->UseVisualStyleBackColor = true;
+			this->compressFileButton->Click += gcnew System::EventHandler(this, &MyForm::compressFileButton_Click);
+			// 
 			// treeView2
 			// 
-			this->treeView2->Location = System::Drawing::Point(555, 4);
+			this->treeView2->Location = System::Drawing::Point(581, 2);
 			this->treeView2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->treeView2->Name = L"treeView2";
 			this->treeView2->Size = System::Drawing::Size(365, 678);
@@ -453,10 +508,10 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			// 
 			// loadFromFileButton
 			// 
-			this->loadFromFileButton->Location = System::Drawing::Point(379, 166);
+			this->loadFromFileButton->Location = System::Drawing::Point(479, 7);
 			this->loadFromFileButton->Margin = System::Windows::Forms::Padding(4);
 			this->loadFromFileButton->Name = L"loadFromFileButton";
-			this->loadFromFileButton->Size = System::Drawing::Size(100, 28);
+			this->loadFromFileButton->Size = System::Drawing::Size(95, 28);
 			this->loadFromFileButton->TabIndex = 4;
 			this->loadFromFileButton->Text = L"From File";
 			this->loadFromFileButton->UseVisualStyleBackColor = true;
@@ -467,7 +522,7 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			this->richTextBox1->Location = System::Drawing::Point(379, 41);
 			this->richTextBox1->Margin = System::Windows::Forms::Padding(4);
 			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->Size = System::Drawing::Size(169, 117);
+			this->richTextBox1->Size = System::Drawing::Size(195, 117);
 			this->richTextBox1->TabIndex = 3;
 			this->richTextBox1->Text = L"";
 			// 
@@ -482,10 +537,10 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			// 
 			// btn_pop
 			// 
-			this->btn_pop->Location = System::Drawing::Point(377, 4);
+			this->btn_pop->Location = System::Drawing::Point(377, 7);
 			this->btn_pop->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btn_pop->Name = L"btn_pop";
-			this->btn_pop->Size = System::Drawing::Size(83, 31);
+			this->btn_pop->Size = System::Drawing::Size(96, 28);
 			this->btn_pop->TabIndex = 1;
 			this->btn_pop->Text = L"Populate";
 			this->btn_pop->UseVisualStyleBackColor = true;
@@ -514,15 +569,25 @@ private: System::Windows::Forms::TreeView^  treeView2;
 			this->tabPage1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tabPage1->Name = L"tabPage1";
 			this->tabPage1->Padding = System::Windows::Forms::Padding(3, 2, 3, 2);
-			this->tabPage1->Size = System::Drawing::Size(926, 686);
+			this->tabPage1->Size = System::Drawing::Size(946, 686);
 			this->tabPage1->TabIndex = 0;
 			this->tabPage1->Text = L"DTMFTest";
+			// 
+			// newFolderButton
+			// 
+			this->newFolderButton->Location = System::Drawing::Point(457, 209);
+			this->newFolderButton->Name = L"newFolderButton";
+			this->newFolderButton->Size = System::Drawing::Size(75, 23);
+			this->newFolderButton->TabIndex = 9;
+			this->newFolderButton->Text = L"New Folder";
+			this->newFolderButton->UseVisualStyleBackColor = true;
+			this->newFolderButton->Click += gcnew System::EventHandler(this, &MyForm::newFolderButton_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(956, 738);
+			this->ClientSize = System::Drawing::Size(978, 738);
 			this->Controls->Add(this->tabControl1);
 			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->Name = L"MyForm";
@@ -595,15 +660,14 @@ private: System::Windows::Forms::TreeView^  treeView2;
 	private: System::Void btn_pop_Click(System::Object^  sender, System::EventArgs^  e) {
 		FolderBrowserDialog folderBrowserDialog1;
 		folderBrowserDialog1.ShowDialog();
+		treeView1FolderPath = folderBrowserDialog1.SelectedPath;
 		addFilesToListView(folderBrowserDialog1.SelectedPath);
 	}
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {		
 	}
 	private: System::Void treeView1_NodeMouseDoubleClick(System::Object^  sender, System::Windows::Forms::TreeNodeMouseClickEventArgs^  e)
 	{
-		//MessageBox::Show(e->Node->FullPath);
 		System::Diagnostics::Process::Start(e->Node->FullPath);		
-		//e->Node->Parent->Nodes->Add(TreeNode("hest"));
 	}			 
 private: System::Void loadFromFileButton_Click(System::Object^  sender, System::EventArgs^  e) 
 {
@@ -612,6 +676,75 @@ private: System::Void loadFromFileButton_Click(System::Object^  sender, System::
 private: System::Void treeView2_NodeMouseDoubleClick(System::Object^  sender, System::Windows::Forms::TreeNodeMouseClickEventArgs^  e) 
 {
 	System::Diagnostics::Process::Start(e->Node->FullPath);
+}
+private: System::Void compressFileButton_Click(System::Object^  sender, System::EventArgs^  e) 
+{
+	String^ readFilePath = treeView1->SelectedNode->FullPath;
+	const char * filePath = context->marshal_as<const char*>(readFilePath); //Converts given foldername to char* for use
+	h = new Huffman;
+
+	h->AnalyseData(filePath);
+	
+	h->BuildTree();
+	
+	h->SaveTreeToFile("C:\\Users\\aszel\\Desktop\\Huffmantest\\Tree.tr");
+	
+	h->CompressFile(filePath, "C:\\Users\\aszel\\Desktop\\Huffmantest\\data");
+	richTextBox1->Text += "Compressed file to working directory\n";
+	treeView1->Nodes->Clear();
+	addFilesToListView(treeView1FolderPath);
+	treeView1->ExpandAll();
+}
+private: System::Void decompressFileButton_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	h->LoadTreeFromFile("C:\\Users\\aszel\\Desktop\\Huffmantest\\Tree.tr");
+	h->DecompressFile("C:\\Users\\aszel\\Desktop\\Huffmantest\\data", "C:\\Users\\aszel\\Desktop\\Huffmantest\\reconstructed.txt");
+	richTextBox1->Text += "Decompressed file to working directory\n";
+	treeView1->Nodes->Clear();
+	addFilesToListView(treeView1FolderPath);
+	treeView1->ExpandAll();
+}
+private: System::Void deleteNodeButton_Click(System::Object^  sender, System::EventArgs^  e) 
+{	
+	String^ nodePath = treeView1->SelectedNode->FullPath;
+	String^ nodeName = nodePath->Substring(nodePath->LastIndexOf("\\") + 1);
+	cli::array<TreeNode^, 1>^ node = findNode(nodePath, treeView1);
+
+
+
+	for (int i = 0; i < node[0]->Nodes->Count; i++)
+	{
+		if (node[0]->Nodes[i]->Name == nodeName)
+		{
+			node[0]->Nodes[i]->Remove();
+		}
+	}
+	//treeView1->SelectedNode->Remove();
+}
+private: System::Void newFolderButton_Click(System::Object^  sender, System::EventArgs^  e) 
+{
+	String^ text;
+	
+	NewDirPopup^ dlg = gcnew NewDirPopup;
+	//Application::Run(dlg)
+	// Show testDialog as a modal dialog and determine if DialogResult = OK.
+	dlg->ShowDialog();
+	/*if (dlg->ShowDialog(this) == ::DialogResult::OK)
+	{
+*/
+		// Read the contents of testDialog's TextBox.
+		text = dlg->GetTextResult();
+	//}
+	delete dlg;
+	
+	String^ nodePath = treeView1->SelectedNode->FullPath;
+	String^ nodeName = nodePath->Substring(nodePath->LastIndexOf("\\") + 1);
+	cli::array<TreeNode^, 1>^ node = findNode(nodePath, treeView1);
+
+	node[0]->Nodes->Add(text);
+	int i = node[0]->Nodes->Count;
+	const char* dirName = context->marshal_as<const char*>(node[0]->Nodes[i-1]->FullPath);
+	_mkdir(dirName);	
 }
 };
 }
