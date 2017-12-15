@@ -182,15 +182,15 @@ void Huffman::DecompressFile(std::string filePath, std::string outputPath)
 
 void Huffman::PopulateTree(struct MinHeapNode* root, std::string str) //Maps tree to codes
 {
-	if (!root)
+	if (!root) 
 		return;
 
-	if (root->endPoint)
+	if (root->endPoint) //If node is endpoint
 	{
-		codeLookup[root->symbol] = str;
+		codeLookup[root->symbol] = str; //Add current code to lookup table for that character
 	}
-	PopulateTree(root->left, str + "0");
-	PopulateTree(root->right, str + "1");
+	PopulateTree(root->left, str + "0"); //Goes left
+	PopulateTree(root->right, str + "1"); //Goes right
 }
 
 Huffman::MinHeapNode* Huffman::FindNodeFromPath(Huffman::MinHeapNode* node, std::string path)
