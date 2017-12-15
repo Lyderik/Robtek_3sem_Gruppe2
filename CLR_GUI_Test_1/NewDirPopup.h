@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CLRGUITest1 {
+namespace Projekt3_Gruppe2_1 {
 
 	using namespace System;
 	using namespace System::ComponentModel;

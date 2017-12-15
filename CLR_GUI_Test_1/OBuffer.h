@@ -8,28 +8,6 @@
 #define M_PI  (3.14159265)
 #endif
 
-class ScopedPaHandler
-{
-public:
-	ScopedPaHandler()
-		: _result(Pa_Initialize())
-	{
-	}
-	~ScopedPaHandler()
-	{
-		if (_result == paNoError)
-		{
-			Pa_Terminate();
-		}
-	}
-
-	PaError result() const { return _result; }
-
-private:
-	PaError _result;
-};
-
-
 
 class OBuffer
 {
@@ -45,14 +23,14 @@ public:
 	bool stop();
 
 private:
-	int iPointer;
-	int oPointer;
-	int sPointer;
+	int iPointer = 0;
+	int oPointer = 0;
+	int sPointer = 0;
+	int zPointer = 0;
 	int waveNumOfSamples;
 	int waveNumOfFadeSamples;
 	int waveFadeBegin;
 	int bufferSize;
-	double phase;
 	static int sampleRate;
 	static double piProduct(int freq);
 	static int findLoDTMFFreq(int d);
@@ -65,4 +43,3 @@ private:
 	static void paStreamFinished(void * userData);
 	void paStreamFinishedMethod();
 };
-

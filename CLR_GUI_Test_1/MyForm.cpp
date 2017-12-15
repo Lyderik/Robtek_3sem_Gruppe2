@@ -3,39 +3,44 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
+#include "ScopedPaHandler.h"
+#include "DLLayer.h"
+#include "FLayer.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
 
 
 [STAThread]
-int Main(array<String^>^ args)
+void Main(array<String^>^ args)
 {
-	ScopedPaHandler paInit;
-	OBuffer wBuffer(100);
-	if (paInit.result() == paNoError) {
-		if (wBuffer.open(Pa_GetDefaultOutputDevice())) {
-			if (!wBuffer.start()) {
-				return -1;
-			}
+	/*int address = 0x00;
+	int source = 0x00;
+	int dest = 0x01;
+
+	int sf = 1024;
+
+	try {
+		DLLayer dllayer(address);
+		FLayer flayer(sf);
+		dllayer.setFramePusher(flayer.sendFrame, &flayer);
+		flayer.setInputCallback(dllayer.frameReceivedWrap, &dllayer);
+
+	reset:
+		if (source == 0x01) {
+			dllayer.sendAskForAdress();
 		}
-		else {
-			return -1;
-		}
+		FrameHandler f;
+
 	}
-	else {
-		return -1;
-	}
+	catch (int i) {
+		return i;
+	}*/
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
-	CLRGUITest1::MyForm form;
-	form.addOBuffer(wBuffer);
+	Projekt3_Gruppe2_1::MyForm form;
+	
 	Application::Run(%form);
-}
-
-void CLRGUITest1::MyForm::addOBuffer(OBuffer & obuffer)
-{
-	wBuffer = &obuffer;
 }

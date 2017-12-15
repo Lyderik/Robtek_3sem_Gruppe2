@@ -1,4 +1,5 @@
 #include "OBuffer.h"
+#include <iostream>
 
 const double OBuffer::piProducts[16][2] = {
 	{ piProduct(findLoDTMFFreq(0)), piProduct(findHiDTMFFreq(0)) },
@@ -21,19 +22,15 @@ const double OBuffer::piProducts[16][2] = {
 
 int OBuffer::sampleRate = 44100;
 
-OBuffer::OBuffer(int toneLength)
+OBuffer::OBuffer(int wns)
 {
-	iPointer = 0;
-	oPointer = 0;
-	sPointer = 0;
-	waveNumOfSamples = sampleRate * toneLength / 1000;
-	waveNumOfFadeSamples = waveNumOfSamples / 5;
+	//waveNumOfSamples = sampleRate * toneLength / 1000;
+	waveNumOfSamples = wns;
+	waveNumOfFadeSamples = waveNumOfSamples / 6;
 	waveFadeBegin = waveNumOfSamples - waveNumOfFadeSamples;
-	bufferSize = 200;
-	phase = 0;
-	buffer = std::vector<int>(bufferSize, 0);
+	bufferSize = 400;
+	buffer = std::vector<int>(bufferSize + 1, 0);
 }
-
 
 OBuffer::~OBuffer()
 {
@@ -42,7 +39,7 @@ OBuffer::~OBuffer()
 
 int OBuffer::put(int b)
 {
-	if (b < 0 || b > 15)
+	if (b < -1 || b > 15)
 		return 2;
 	if ((iPointer + 1) % bufferSize == oPointer % bufferSize)
 		return 1;
@@ -55,6 +52,15 @@ int OBuffer::put(int b)
 double OBuffer::getNext()
 {
 	if (oPointer != iPointer) {
+		if (buffer[oPointer] == -1) {
+			if (++zPointer > .8 * waveNumOfSamples) {
+				if (++oPointer == bufferSize) {
+					oPointer = 0;
+				}
+				zPointer = 0;
+			}
+			return 0;
+		}
 		double r = 0.4 * sin(sPointer * piProducts[buffer[oPointer]][0]) + 0.4 * sin(sPointer * piProducts[buffer[oPointer]][1]);
 		/* Fade magic */
 		if (sPointer > waveFadeBegin)
@@ -109,7 +115,7 @@ bool OBuffer::open(PaDeviceIndex index)
 	const PaDeviceInfo* pInfo = Pa_GetDeviceInfo(index);
 	if (pInfo != 0)
 	{
-		printf("Output device name: '%s'\r", pInfo->name);
+		printf("Output device name: '%s'\n", pInfo->name);
 	}
 
 	outputParameters.channelCount = 1;       /* mono output */
@@ -138,6 +144,7 @@ bool OBuffer::open(PaDeviceIndex index)
 
 	if (err != paNoError)
 	{
+		std::cout << "\n\n   output open fail   \n\n";
 		Pa_CloseStream(stream);
 		stream = 0;
 
@@ -220,7 +227,7 @@ int OBuffer::paCallback(const void *inputBuffer, void *outputBuffer,
 
 void OBuffer::paStreamFinishedMethod()
 {
-	printf("Stream Completed: %s\n", message);
+	printf("\nStream Completed: %s\n", message);
 }
 
 /*
