@@ -59,7 +59,7 @@ void Huffman::AnalyseData(std::string filePath)
 
 void Huffman::BuildTree()
 {
-	struct Huffman::MinHeapNode *left, *right, *top; //Black magic
+	struct Huffman::MinHeapNode *left, *right, *top;
 
 	std::priority_queue<Huffman::MinHeapNode*, std::vector<Huffman::MinHeapNode*>, compare> minHeap; //Creates a priority queue
 
