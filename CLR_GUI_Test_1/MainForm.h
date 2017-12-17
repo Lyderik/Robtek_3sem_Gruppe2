@@ -29,10 +29,10 @@ namespace Projekt3_Gruppe2_1 {
 	/// <summary>
 	/// Summary for MyForm
 	/// </summary>
-	public ref class MyForm : public System::Windows::Forms::Form
+	public ref class MainForm : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm(void)
+		MainForm(void)
 		{			
 			InitializeComponent();
 			
@@ -184,7 +184,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm()
+		~MainForm()
 		{
 			if (components)
 			{
@@ -236,7 +236,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->btn_pop->TabIndex = 1;
 			this->btn_pop->Text = L"Select working folder";
 			this->btn_pop->UseVisualStyleBackColor = true;
-			this->btn_pop->Click += gcnew System::EventHandler(this, &MyForm::btn_pop_Click);
+			this->btn_pop->Click += gcnew System::EventHandler(this, &MainForm::btn_pop_Click);
 			// 
 			// treeView1
 			// 
@@ -245,7 +245,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->treeView1->Name = L"treeView1";
 			this->treeView1->Size = System::Drawing::Size(365, 661);
 			this->treeView1->TabIndex = 2;
-			this->treeView1->NodeMouseDoubleClick += gcnew System::Windows::Forms::TreeNodeMouseClickEventHandler(this, &MyForm::treeView1_NodeMouseDoubleClick);
+			this->treeView1->NodeMouseDoubleClick += gcnew System::Windows::Forms::TreeNodeMouseClickEventHandler(this, &MainForm::treeView1_NodeMouseDoubleClick);
 			// 
 			// richTextBox1
 			// 
@@ -263,7 +263,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->treeView2->Name = L"treeView2";
 			this->treeView2->Size = System::Drawing::Size(365, 661);
 			this->treeView2->TabIndex = 5;
-			this->treeView2->NodeMouseDoubleClick += gcnew System::Windows::Forms::TreeNodeMouseClickEventHandler(this, &MyForm::treeView2_NodeMouseDoubleClick);
+			this->treeView2->NodeMouseDoubleClick += gcnew System::Windows::Forms::TreeNodeMouseClickEventHandler(this, &MainForm::treeView2_NodeMouseDoubleClick);
 			// 
 			// deleteNodeButton
 			// 
@@ -273,7 +273,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->deleteNodeButton->TabIndex = 8;
 			this->deleteNodeButton->Text = L"Delete";
 			this->deleteNodeButton->UseVisualStyleBackColor = true;
-			this->deleteNodeButton->Click += gcnew System::EventHandler(this, &MyForm::deleteNodeButton_Click);
+			this->deleteNodeButton->Click += gcnew System::EventHandler(this, &MainForm::deleteNodeButton_Click);
 			// 
 			// newFolderButton
 			// 
@@ -283,7 +283,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->newFolderButton->TabIndex = 9;
 			this->newFolderButton->Text = L"New Folder";
 			this->newFolderButton->UseVisualStyleBackColor = true;
-			this->newFolderButton->Click += gcnew System::EventHandler(this, &MyForm::newFolderButton_Click);
+			this->newFolderButton->Click += gcnew System::EventHandler(this, &MainForm::newFolderButton_Click);
 			// 
 			// selectServerButton
 			// 
@@ -293,7 +293,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->selectServerButton->TabIndex = 10;
 			this->selectServerButton->Text = L"Server";
 			this->selectServerButton->UseVisualStyleBackColor = true;
-			this->selectServerButton->Click += gcnew System::EventHandler(this, &MyForm::selectServerButton_Click);
+			this->selectServerButton->Click += gcnew System::EventHandler(this, &MainForm::selectServerButton_Click);
 			// 
 			// selectClientButton
 			// 
@@ -303,7 +303,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->selectClientButton->TabIndex = 11;
 			this->selectClientButton->Text = L"Client";
 			this->selectClientButton->UseVisualStyleBackColor = true;
-			this->selectClientButton->Click += gcnew System::EventHandler(this, &MyForm::selectClientButton_Click);
+			this->selectClientButton->Click += gcnew System::EventHandler(this, &MainForm::selectClientButton_Click);
 			// 
 			// requestTreeButton
 			// 
@@ -313,7 +313,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->requestTreeButton->TabIndex = 12;
 			this->requestTreeButton->Text = L"Request file tree";
 			this->requestTreeButton->UseVisualStyleBackColor = true;
-			this->requestTreeButton->Click += gcnew System::EventHandler(this, &MyForm::requestTreeButton_Click);
+			this->requestTreeButton->Click += gcnew System::EventHandler(this, &MainForm::requestTreeButton_Click);
 			// 
 			// getFileButton
 			// 
@@ -323,7 +323,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->getFileButton->TabIndex = 13;
 			this->getFileButton->Text = L"<- Get file";
 			this->getFileButton->UseVisualStyleBackColor = true;
-			this->getFileButton->Click += gcnew System::EventHandler(this, &MyForm::getFileButton_Click);
+			this->getFileButton->Click += gcnew System::EventHandler(this, &MainForm::getFileButton_Click);
 			// 
 			// sendFileButton
 			// 
@@ -333,7 +333,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->sendFileButton->TabIndex = 14;
 			this->sendFileButton->Text = L"Send file ->";
 			this->sendFileButton->UseVisualStyleBackColor = true;
-			this->sendFileButton->Click += gcnew System::EventHandler(this, &MyForm::sendFileButton_Click);
+			this->sendFileButton->Click += gcnew System::EventHandler(this, &MainForm::sendFileButton_Click);
 			// 
 			// label1
 			// 
@@ -371,7 +371,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->resetButton->TabIndex = 18;
 			this->resetButton->Text = L"Reset";
 			this->resetButton->UseVisualStyleBackColor = true;
-			this->resetButton->Click += gcnew System::EventHandler(this, &MyForm::resetButton_Click_1);
+			this->resetButton->Click += gcnew System::EventHandler(this, &MainForm::resetButton_Click_1);
 			// 
 			// label4
 			// 
@@ -399,7 +399,7 @@ private: System::Windows::Forms::Button^  selectClientButton;
 			this->exitButton->TabIndex = 21;
 			this->exitButton->Text = L"Exit";
 			this->exitButton->UseVisualStyleBackColor = true;
-			this->exitButton->Click += gcnew System::EventHandler(this, &MyForm::exitButton_Click);
+			this->exitButton->Click += gcnew System::EventHandler(this, &MainForm::exitButton_Click);
 			// 
 			// MyForm
 			// 

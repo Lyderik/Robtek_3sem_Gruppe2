@@ -1,4 +1,4 @@
-#include "MyForm.h"
+#include "MainForm.h"
 #include "OBuffer.h"
 #include <string>
 #include <iostream>
@@ -40,7 +40,7 @@ void Main(array<String^>^ args)
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
-	Projekt3_Gruppe2_1::MyForm form;
+	Projekt3_Gruppe2_1::MainForm form;
 	
 	Application::Run(%form);
 }
