@@ -95,7 +95,7 @@ public:
 
 	int getTimeLength();
 
-	/* SPECIFIC FUNKTIONS */
+	/* SPECIFIC FUNCTIONS */
 
 	void setType(int type);
 	int  getType();

@@ -9,20 +9,19 @@ FileHandler::FileHandler()
 {
 }
 
-//INPUT: Add error handling pls
 void FileHandler::loadFileFromPath(std::string _fileInPath)
 {
 	inputStream.open(_fileInPath, std::ios::binary); //Opens input stream
 }
 
-char FileHandler::readNextByte()
+unsigned char FileHandler::readNextByte()
 {
-	return inputStream.get(); //Gets next byte from the input stream
+	return (unsigned char)inputStream.get(); //Gets next byte from the input stream
 }
 
-char * FileHandler::readNextBytes(int length)
+unsigned char * FileHandler::readNextBytes(int length)
 {
-	char * buffer = new char[length];
+	unsigned char * buffer = new unsigned char[length];
 	for (int i = 0; i < length; i++) //Reads n bytes and outputs to char buffer
 	{
 		buffer[i] = readNextByte();
@@ -59,7 +58,6 @@ void FileHandler::endReadFile()
 	inputStream.close(); //Closes input stream 
 }
 
-//OUTPUT: Add error handling pls
 void FileHandler::startWriteFile(std::string _outputFilePath)
 {
 	outputStream.open(_outputFilePath, std::ios::binary); //Opens output stream to filepath

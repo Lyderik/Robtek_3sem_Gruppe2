@@ -8,8 +8,8 @@ class FileHandler
 public:
 	FileHandler();
 	void loadFileFromPath(std::string _fileInPath);
-	char readNextByte();
-	char * readNextBytes(int length);
+	unsigned char readNextByte();
+	unsigned char * readNextBytes(int length);
 	char* readAllBytes();
 	void endReadFile();
 
@@ -22,7 +22,6 @@ public:
 private:
 	std::ifstream inputStream;
 	std::ofstream outputStream;
-	std::string fileInPath;
 	int byteCount = 0;
 };
 
