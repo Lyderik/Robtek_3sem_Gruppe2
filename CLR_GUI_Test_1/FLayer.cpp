@@ -54,8 +54,7 @@ void FLayer::put(Frame* frame)
 {
 	//outBuffer->put(-1);
 	outBuffer->put(0);
-	outBuffer->put(0);
-	outBuffer->put(-1);
+	outBuffer->put(15);
 	outBuffer->put(15);
 	outBuffer->put(-1);
 	std::cout << "send: ";

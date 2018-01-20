@@ -21,7 +21,7 @@
 #define FIRST_FLAG_TONE 0
 #define LAST_FLAG_TONE 15
 
-#define WINDOW_RESOLUTION 4 
+#define WINDOW_RESOLUTION 4
 
 class IBuffer
 {

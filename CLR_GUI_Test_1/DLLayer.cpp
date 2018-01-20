@@ -1,6 +1,8 @@
 #include "DLLayer.h"
-using namespace System;
-using namespace System::Threading;
+#include "MyTimer.cpp"
+
+/*using namespace System;
+using namespace System::Threading;*/
 
 DLLayer::DLLayer(byte type)
 {
@@ -61,7 +63,7 @@ void DLLayer::ReceiveFrame(Frame * frame)
 	delete frame;
 }
 
-
+/*
 ref class CallBack
 {
 public:
@@ -72,13 +74,13 @@ public:
 	}
 	int sequence;
 	DLLayer* DLL;
-};
+};*/
 
-void DLLayer::ThreadProc(Object^ data)
+/*void DLLayer::ThreadProc(Object^ data)
 {
 	CallBack^ cB = (CallBack^)data;
 	ackTimerCallbackWrap(cB->DLL, cB->sequence);
-}
+}*/
 
 void DLLayer::sendFrame(bool ackNeeded)
 {
@@ -86,12 +88,13 @@ void DLLayer::sendFrame(bool ackNeeded)
 	sendFrameFlayer(frame, flayer);
 	if (ackNeeded) {
 		int time = frameBuilder.getTimeLength();
-		
-		CallBack^ c = gcnew CallBack(sequence, this);
+		MyTimer(time, true, &ackTimerCallbackWrap, this, sequence);
+
+		/*CallBack^ c = gcnew CallBack(sequence, this);
 
 		Thread^ oThread = gcnew Thread(gcnew ParameterizedThreadStart(&ThreadProc));
 		oThread->Sleep(time);
-		oThread->Start(c);
+		oThread->Start(c);*/
 	}
 }
 
@@ -127,14 +130,13 @@ void DLLayer::handleHeyFrame()
 			frameBuilder.setHeyAdress(nextAvailableAdress);
 
 			std::cout << "Send Handshake Give Frame\n";
-			//Frame* f = frameBuilder.getFrame();
 			sendFrame();
 		}
 		break;
 
 	case FrameHandler::TYPE_HANDSHAKE_GIVE:
 		std::cout << "Received Handshake Give Frame\n";
-		tempaddress = frameReader.getHeyAdress();
+		/*tempaddress = frameReader.getHeyAdress();
 
 		frameBuilder.clearFrame();
 
@@ -145,8 +147,10 @@ void DLLayer::handleHeyFrame()
 		frameBuilder.setHSType(FrameHandler::TYPE_HANDSHAKE_THX);
 
 		getNextSeq();
-		std::cout << "Send Handshake Thx Frame\n";
-		sendFrame(true);
+		std::cout << "Send Handshake Thx Frame\n";*/
+		//sendFrame(true);
+		//sendFrame();
+		sendThxFrame();
 		break;
 
 	case FrameHandler::TYPE_HANDSHAKE_THX:
@@ -198,6 +202,23 @@ void DLLayer::handleReqFrame()
 void DLLayer::handleACKFrame()
 {
 	getNextSeq();
+}
+
+void DLLayer::sendThxFrame()
+{
+	tempaddress = frameReader.getHeyAdress();
+
+	frameBuilder.clearFrame();
+
+	frameBuilder.setSource(tempaddress);
+	frameBuilder.setDest(frameReader.getSource());
+
+	frameBuilder.setType(FrameHandler::TYPE_HANDSHAKE);
+	frameBuilder.setHSType(FrameHandler::TYPE_HANDSHAKE_THX);
+
+	getNextSeq();
+	std::cout << "Send Handshake Thx Frame\n";
+	sendFrame(true);
 }
 
 void DLLayer::ackTimerCallbackWrap(DLLayer* dll, int seqNr)

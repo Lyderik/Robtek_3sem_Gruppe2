@@ -151,10 +151,10 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 
 	const float * in = (const float*)inputBuffer;
 	if (state == IDLE || state == FIRST_FLAG_TONE_FOUND) {
-		int endStarFrame = bufferSize - sampleBufferSize;
-		for (int i = 0; i < endStarFrame; i++)
+		int endStarFrame = bufferSize - sampleBufferSize; //sidste frame før nye data
+		for (int i = 0; i < endStarFrame; i++) // shit indhold array frem 
 			fftBuffer[i] = fftBuffer[i + sampleBufferSize];
-		for (int i = 0; i < framesPerBuffer; i++)
+		for (int i = 0; i < framesPerBuffer; i++) // overskriv enden af array med ny data
 			fftBuffer[endStarFrame + i] = *(in + i);
 	}
 	if (state == BEFORE_COLLECTING) {
@@ -177,6 +177,7 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 			return paContinue;
 		}
 	}
+	/* FFT MAGIC */
 	for (int i = 0; i < bufferSize; i++)
 		fftOut[i] = fftBuffer[i];
 
@@ -200,7 +201,7 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 		for (int j = startLookFrame; j < endLookFrame; j++)
 		{
 			if (j == nl || j == nh)
-				mag[i] += avr - fft[j];
+				mag[i] -= fft[j];
 			else
 				mag[i] += fft[j];
 		}
@@ -217,37 +218,13 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 			nsmall = i;
 		}
 	}
-	avr2 /= 17.0f;
+	avr2 /= 18.0f;
 	if (mag[nsmall] > avr2)
 		nsmall = -1;
 
 	/** CONSOLE LOGGING **/
 
-	if (nsmall >= 0)
-	{
-		//std::cout << std::fixed << std::setw(2) << int(nsmall);
-		//float mags[16];
-		//float f = 0;
-		/*
-		for (int i = 0; i < 16; i++) {
-		//int nl = n[i / 4];
-		//int nh = n[i % 4 + 4];
-		//mags[i] = (fft[nl - 1] + fft[nl] + fft[nl + 1])/3 + (fft[nh - 1] + fft[nh] + fft[nh + 1])/3;
-		//mags[i] = fft[nl] + fft[nh];
-		if (i == nsmall) {
-		if (state == COLLECTING)
-		SetConsoleTextAttribute(hConsole, 10);
-		else
-		SetConsoleTextAttribute(hConsole, 12);
-		}
-		else
-		SetConsoleTextAttribute(hConsole, 15);
-		std::cout << std::setw(4) << std::setprecision(0) << mag[i];
-		}*/
-		//std::cout << "              \r";
-		//std::cout << std::endl;
-	}
-
+	
 	/**  STATE MACHINE **/
 	switch (state)
 	{
@@ -256,6 +233,7 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 			if (++flagCounter >= WINDOW_RESOLUTION/2) {
 				flagCounter = 0;
 				state = FIRST_FLAG_TONE_FOUND;
+				std::cout << "FIRST FLAG TONE FOUND\n";
 			}
 		}
 		else if (flagCounter > 0)
@@ -277,15 +255,16 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 				flagCounter++;
 				if (mag[15] < lowValueFlag) {
 					lowValueFlag = mag[15];
-					iPointer = WINDOW_RESOLUTION / 4;
+					iPointer = 1;
 				}
 			}
-			if (toneCounter > 4) {
+			if (toneCounter > 1.5 * WINDOW_RESOLUTION) {
 				if (flagCounter > 1) {
-					//std::cout << "Start flag found\n";
+					std::cout << "SECOND FLAG TONE FOUND\n";
 					state = BEFORE_COLLECTING;
 				}
 				else {
+					std::cout << "FAIIL\n";
 					state = IDLE;
 				}
 				toneCounter = 0;
@@ -352,27 +331,26 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 			}
 		}
 		break;
-		/*case COLLECTING_INFO_FRAME:
-		if (nsmall == -1) {
-		state = IDLE;
-		std::cout << "error: failed to hear info frame\n";
-		inchars.clear();
-		}
-		else {
-		inchars.push_back(nsmall);
-		if (inchars.size() == 8) {
-		state = IDLE;
-
-		Frame* frame = new Frame(4);
-		for (int i = 0; i < 4; i++) {
-		frame->data[i] = inchars[i * 2] * 16 + inchars[i * 2 + 1];
-		}
-		callback(frame, dll);
-		}
-
-		}
-		break;*/
 	}
+	if (state != IDLE)
+	{
+		//std::cout << std::fixed << std::setw(2) << int(nsmall);
+		std::cout << std::fixed;
+		for (int i = 0; i < 16; i++) {
+			if (i == nsmall) {
+				if (state == COLLECTING)
+					SetConsoleTextAttribute(hConsole, 10);
+				else
+					SetConsoleTextAttribute(hConsole, 12);
+			}
+			else
+				SetConsoleTextAttribute(hConsole, 15);
+			std::cout << std::setw(3) << std::setprecision(0) << mag[i];
+		}
+		//std::cout << "              \r";
+		std::cout << std::endl;
+	}
+
 	return paContinue;
 
 }

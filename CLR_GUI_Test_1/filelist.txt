@@ -1,113 +1,21 @@
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag.sln
-C:\Users\aszel\Desktop\BoefGoegl\Debug\Debug.zip
-C:\Users\aszel\Desktop\BoefGoegl\Debug\Fysiske lag.exe
-C:\Users\aszel\Desktop\BoefGoegl\Debug\Fysiske lag.ilk
-C:\Users\aszel\Desktop\BoefGoegl\Debug\Fysiske lag.pdb
-C:\Users\aszel\Desktop\BoefGoegl\Debug\Fysiske lag.zip
-C:\Users\aszel\Desktop\BoefGoegl\Debug\portaudio_x86.dll
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\CRC.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\CRC.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\DLLayer.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\DLLayer.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\FLayer.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\FLayer.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Frame.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Frame.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Fysiske lag.vcxproj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Fysiske lag.vcxproj.filters
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Huffman.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Huffman.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\IBuffer old.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\IBuffer old.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\IBuffer.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\IBuffer.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\OBuffer old.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\OBuffer old.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\OBuffer.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\OBuffer.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Protocol.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\ScopedPaHandler.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Source.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Timer.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\TreeElement.cpp
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\TreeElement.h
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\CRC.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\DLLayer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\FLayer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Frame.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\frame.obj.enc
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.log
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Huffman.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\IBuffer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\ibuffer.obj.enc
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\OBuffer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\obuffer.obj.enc
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Protocol.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Source.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\source.obj.enc
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\TreeElement.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\vc141.idb
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\vc141.pdb
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\dirent.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_asio.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_jack.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_linux_alsa.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_mac_core.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_win_ds.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_win_wasapi.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_win_waveformat.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_win_wdmks.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\pa_win_wmme.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\include\portaudio.h
-C:\Users\aszel\Desktop\BoefGoegl\libs\lib\portaudio_x64.lib
-C:\Users\aszel\Desktop\BoefGoegl\libs\lib\portaudio_x86.lib
-C:\Users\aszel\Desktop\BoefGoegl\x64\Debug\Fysiske lag.pdb
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\.suo
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\Browse.VC.db
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\Browse.VC.opendb
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\CL.command.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\CL.read.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\CL.write.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\Fysiske lag.lastbuildstate
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\link.command.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\link.read.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\Debug\Fysiske lag.tlog\link.write.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\CRC.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\DLLayer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\FLayer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Frame.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.log
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Huffman.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\IBuffer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\OBuffer.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Source.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\TreeElement.obj
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\vc141.idb
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\vc141.pdb
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\CL.command.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\CL.read.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\CL.write.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\Fysiske lag.lastbuildstate
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link-cvtres.read.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link-cvtres.write.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link-rc.read.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link-rc.write.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link.command.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link.read.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\link.write.1.tlog
-C:\Users\aszel\Desktop\BoefGoegl\Fysiske lag\x64\Debug\Fysiske lag.tlog\unsuccessfulbuild
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\30e5d98cfcdf9d0b\FRAME.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\489522f185ad1263\SOURCE.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\4904598155e742a4\CRC.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\499f7bc64d5a3f5b\FRAME.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\4b56d0be46dad5b1\HUFFMAN.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\6b045994f4903833\FLAYER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\7f118f5169831079\OBUFFER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\88b2f787a5c16169\OBUFFER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\8b15e8639f7ef3ff\IBUFFER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\9b9040128874608f\IBUFFER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\9bb889ce2f49c1a3\FLAYER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\b2c76cc8a3c6a9d5\DLLAYER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\c24ddbba8534aed3\SOURCE.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\d3c50cb3ec0a0585\DLLAYER.ipch
-C:\Users\aszel\Desktop\BoefGoegl\.vs\Fysiske lag\v15\ipch\AutoPCH\e6e4d3f7b023554\CRC.ipch
+C:\Users\Benjamin\Desktop\dsp\alias_combo.svg
+C:\Users\Benjamin\Desktop\dsp\alias_combo_joind_filled.svg
+C:\Users\Benjamin\Desktop\dsp\alias_ori.svg
+C:\Users\Benjamin\Desktop\dsp\dsp 1.pptx
+C:\Users\Benjamin\Desktop\dsp\dsp 2.pptx
+C:\Users\Benjamin\Desktop\dsp\dsp 3.pptx
+C:\Users\Benjamin\Desktop\dsp\dsp.nb
+C:\Users\Benjamin\Desktop\dsp\large_combo.svg
+C:\Users\Benjamin\Desktop\dsp\large_con.svg
+C:\Users\Benjamin\Desktop\dsp\large_dt.svg
+C:\Users\Benjamin\Desktop\dsp\recon_foh.svg
+C:\Users\Benjamin\Desktop\dsp\recon_nn.svg
+C:\Users\Benjamin\Desktop\dsp\recon_ori.svg
+C:\Users\Benjamin\Desktop\dsp\recon_over_foh.svg
+C:\Users\Benjamin\Desktop\dsp\recon_over_nn.svg
+C:\Users\Benjamin\Desktop\dsp\recon_over_sinc.svg
+C:\Users\Benjamin\Desktop\dsp\recon_over_zoh.svg
+C:\Users\Benjamin\Desktop\dsp\recon_sinc.svg
+C:\Users\Benjamin\Desktop\dsp\recon_sinc_uncollapsed_filled.svg
+C:\Users\Benjamin\Desktop\dsp\recon_zoh.svg
+C:\Users\Benjamin\Desktop\dsp\ztrans_anu.svg

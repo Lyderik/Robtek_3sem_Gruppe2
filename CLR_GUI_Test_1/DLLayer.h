@@ -62,7 +62,9 @@ private:
 	void handleReqFrame();
 	void handleACKFrame();
 
-	static void ThreadProc(System::Object^ data);
+	void sendThxFrame();
+
+/*	static void ThreadProc(System::Object^ data);*/
 	static void ackTimerCallbackWrap(DLLayer* dll, int seqNr);
 	void ackTimerCallback(int seqNr);
 	int getNextSeq();
