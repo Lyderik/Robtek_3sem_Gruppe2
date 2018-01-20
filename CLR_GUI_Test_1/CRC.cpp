@@ -23,9 +23,7 @@ crc CRC::crcSlow(unsigned char message[], int nBytes)
 			}
 		}
 	}
-
 	return (remainder); //Udskriv checksum.
-
 }
 
 
