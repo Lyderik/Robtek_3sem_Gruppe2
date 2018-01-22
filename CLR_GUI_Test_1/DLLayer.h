@@ -62,12 +62,12 @@ private:
 	void handleReqFrame();
 	void handleACKFrame();
 
-	void sendThxFrame();
-
 /*	static void ThreadProc(System::Object^ data);*/
 	static void ackTimerCallbackWrap(DLLayer* dll, int seqNr);
 	void ackTimerCallback(int seqNr);
 	int getNextSeq();
+
+	void sendAskForFileFrame(int fileIndex = 0, int srflag = 0, int dest = SERVER);
 
 	//void sendAdressAck();
 };

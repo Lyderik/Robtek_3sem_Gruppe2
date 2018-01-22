@@ -58,6 +58,7 @@ public:
 
 	static const int FLAG_NEWADRESS = 3;
 	static const int FLAG_HS_ACK = 4;
+	static const int FLAG_SR = 2;
 
 	/* GENERIC FLAGS */
 	static const int FLAG_SEQ = 3;

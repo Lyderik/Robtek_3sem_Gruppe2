@@ -225,7 +225,7 @@ int IBuffer::paCallbackMethod(const void *inputBuffer, void *outputBuffer,
 	/** CONSOLE LOGGING **/
 
 	
-	/**  STATE MACHINE **/
+	/** STATE MACHINE **/
 	switch (state)
 	{
 	case IDLE: // Listening for first flag tone

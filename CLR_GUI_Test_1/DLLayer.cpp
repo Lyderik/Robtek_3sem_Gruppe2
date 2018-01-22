@@ -136,7 +136,7 @@ void DLLayer::handleHeyFrame()
 
 	case FrameHandler::TYPE_HANDSHAKE_GIVE:
 		std::cout << "Received Handshake Give Frame\n";
-		/*tempaddress = frameReader.getHeyAdress();
+		tempaddress = frameReader.getHeyAdress();
 
 		frameBuilder.clearFrame();
 
@@ -147,10 +147,8 @@ void DLLayer::handleHeyFrame()
 		frameBuilder.setHSType(FrameHandler::TYPE_HANDSHAKE_THX);
 
 		getNextSeq();
-		std::cout << "Send Handshake Thx Frame\n";*/
-		//sendFrame(true);
-		//sendFrame();
-		sendThxFrame();
+		std::cout << "Send Handshake Thx Frame\n";
+		sendFrame(true);
 		break;
 
 	case FrameHandler::TYPE_HANDSHAKE_THX:
@@ -181,6 +179,7 @@ void DLLayer::handleHeyFrame()
 
 void DLLayer::handleDataSizeFrame()
 {
+
 }
 
 void DLLayer::handleDataFrame()
@@ -197,28 +196,12 @@ void DLLayer::handleDataFrame()
 
 void DLLayer::handleReqFrame()
 {
+
 }
 
 void DLLayer::handleACKFrame()
 {
 	getNextSeq();
-}
-
-void DLLayer::sendThxFrame()
-{
-	tempaddress = frameReader.getHeyAdress();
-
-	frameBuilder.clearFrame();
-
-	frameBuilder.setSource(tempaddress);
-	frameBuilder.setDest(frameReader.getSource());
-
-	frameBuilder.setType(FrameHandler::TYPE_HANDSHAKE);
-	frameBuilder.setHSType(FrameHandler::TYPE_HANDSHAKE_THX);
-
-	getNextSeq();
-	std::cout << "Send Handshake Thx Frame\n";
-	sendFrame(true);
 }
 
 void DLLayer::ackTimerCallbackWrap(DLLayer* dll, int seqNr)
@@ -241,6 +224,19 @@ int DLLayer::getNextSeq()
 {
 	sequence = !sequence;
 	return sequence;
+}
+
+void DLLayer::sendAskForFileFrame(int file, int srflag, int dest) {
+	frameBuilder.clearFrame();
+	frameBuilder.setSource(address);
+	frameBuilder.setDest(dest);
+	frameBuilder.setType(FrameHandler::TYPE_REQUEST);
+	if (srflag)
+		frameBuilder.setFlag(FrameHandler::FLAG_SR);
+	else
+		frameBuilder.clearFlag(FrameHandler::FLAG_SR);
+
+	sendFrame(true);
 }
 
 
